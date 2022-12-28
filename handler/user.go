@@ -1,18 +1,29 @@
 package handler
 
 import (
-	"goarch/database/rdb"
-	"goarch/model"
+	"goarch/message"
+	"goarch/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func GetUserList(c *gin.Context) {
-	db := rdb.Local()
-	u  := []model.User{}
+	userSvc := service.NewUser()
+	res, err := userSvc.GetList()
+	if err != nil {
+		c.AbortWithStatusJSON(500, err)
+	}
 
-	db.Find(&u)
+	users := make([]message.User, len(res))
+	for k, v := range res {
+		users[k] = message.User{
+			ID:        v.ID,
+			Name:      v.Name,
+			Age:       v.Age,
+			CreatedAt: v.CreatedAt,
+		}
+	}
 
-	c.JSON(http.StatusOK, u)
+	c.JSON(http.StatusOK, users)
 }
