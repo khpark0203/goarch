@@ -12,7 +12,7 @@ func GetUserList(c *gin.Context) {
 	userSvc := service.NewUser()
 	res, err := userSvc.GetList()
 	if err != nil {
-		c.AbortWithStatusJSON(500, err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, err)
 		return
 	}
 
