@@ -13,6 +13,7 @@ func GetUserList(c *gin.Context) {
 	res, err := userSvc.GetList()
 	if err != nil {
 		c.AbortWithStatusJSON(500, err)
+		return
 	}
 
 	users := make([]message.User, len(res))
