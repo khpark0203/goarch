@@ -17,6 +17,8 @@ func Error(code errorcode, err error) *MsgError {
 }
 
 const (
-	ERROR_DB_FIND errorcode = 10000 + iota
+	ERROR_COMMON_INTERNAL = 1000 + iota
+
+	ERROR_DB_FIND   = 10000 + iota
 	ERROR_DB_INSERT
 )

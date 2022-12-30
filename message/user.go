@@ -1,12 +1,14 @@
 package message
 
-import "time"
+type GetUserListReq struct {
+	Name string `form:"name"`
+}
 
-type User struct {
-	ID        uint       `json:"id"`
-	Name      string     `json:"name"`
-	Age       uint       `json:"age"`
-	CreatedAt *time.Time `json:"createdAt"`
-	UpdatedAt *time.Time `json:"-"`
-	DeletedAt *time.Time `json:"-"`
+type GetUserListRes struct {
+	ID        uint    `json:"id"`
+	Name      string  `json:"name"`
+	Age       uint    `json:"age"`
+	CreatedAt *string `json:"createdAt"`
+	UpdatedAt *string `json:"-"`
+	DeletedAt *string `json:"-"`
 }
