@@ -24,6 +24,12 @@ func NewUser(db ...*gorm.DB) *user {
 	return u
 }
 
+func (u *user) WithTransaction() *user {
+	u.db = u.db.Begin()
+
+	return u
+}
+
 func (u *user) GetList() ([]model.User, *message.MsgError) {
 	res, err := repo.Local(u.db).FindUsers()
 	if err != nil {
