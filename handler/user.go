@@ -9,26 +9,26 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetUserList(c *gin.Context) {
-	userSvc := service.NewUser()
-	
-	req := message.GetUserListReq{}
-	err := c.ShouldBind(&req)
-	if err != nil {
-		msgerr := message.Error(message.ERROR_COMMON_INTERNAL, err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, msgerr)
-		return
+type userHandler struct {
+	userService service.User
+}
+
+func NewUserHandler() userHandler {
+	return userHandler{
+		userService: *service.NewUser(),
 	}
-	
-	res, msgerr := userSvc.GetList()
+}
+
+func (uh *userHandler) GetList(c *gin.Context) {
+	res, msgerr := uh.userService.GetList()
 	if msgerr != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, msgerr)
 		return
 	}
 
-	users := make([]message.GetUserListRes, len(res))
+	users := make([]message.UsersGetListRes, len(res))
 	for k, v := range res {
-		users[k] = message.GetUserListRes{
+		users[k] = message.UsersGetListRes{
 			ID:        v.ID,
 			Name:      v.Name,
 			Age:       v.Age,
@@ -37,4 +37,7 @@ func GetUserList(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, users)
+}
+
+func (uh *userHandler) Create(c *gin.Context) {
 }

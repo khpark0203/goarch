@@ -8,7 +8,12 @@ import (
 )
 
 func (a *api) InitV1() {
-	a.v1.GET("/users", handler.GetUserList)
+	userRouter := a.v1.Group("/users")
+	{
+		userHandler := handler.NewUserHandler()
+		userRouter.GET("",  userHandler.GetList)
+		userRouter.POST("", userHandler.Create)
+	}
 
 	a.v1.GET("/status/:statuscode", func(c *gin.Context) {
 		code, err := strconv.Atoi(c.Param("statuscode"))

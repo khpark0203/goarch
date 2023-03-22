@@ -18,3 +18,15 @@ func (l *repository) FindUsers() ([]model.User, error) {
 
 	return users, nil
 }
+
+func (l *repository) SaveUser() error {
+	users := []model.User{}
+	err := l.db.Save(&users).Error
+	if err != nil {
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return err
+		}
+	}
+
+	return nil
+}

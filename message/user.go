@@ -1,10 +1,6 @@
 package message
 
-type GetUserListReq struct {
-	Name string `form:"name"`
-}
-
-type GetUserListRes struct {
+type UsersGetListRes struct {
 	ID        uint    `json:"id"`
 	Name      string  `json:"name"`
 	Age       uint    `json:"age"`
